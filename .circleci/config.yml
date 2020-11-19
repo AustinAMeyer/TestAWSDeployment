@@ -9,9 +9,6 @@ jobs:
           aws cloudformation create-stack --stack-name "InfastructureCreation" --template-body file://template.yml --region=us-west-2
 
 workflows:
-  # Name the workflow "welcome"
   create_infrastructure:
-    # Run the welcome/run job in its own container
     jobs:
-  #Printing out the commands that I have created in an enviroment variable
         -  create_infrastructure
