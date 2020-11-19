@@ -1,7 +1,7 @@
 
 version: 2.1
 jobs:  
-  reate_infrastructure:
+  create_infrastructure:
     docker:
       - image: "amazon/aws-cli"
     steps:
@@ -13,7 +13,7 @@ jobs:
 
 workflows:
   # Name the workflow "welcome"
-  reate_infrastructure:
+  create_infrastructure:
     # Run the welcome/run job in its own container
     jobs:
   #Printing out the commands that I have created in an enviroment variable
