@@ -8,7 +8,7 @@ jobs:
       - run:
           name: Ensure backend infrastructure exist
           command: |
-          aws cloudformation create-stack --stack-name "InfastructureCreation" --template-body file://template.yml --region=us-west-2
+            aws cloudformation create-stack --stack-name "InfastructureCreation" --template-body file://template.yml --region=us-west-2
 
 workflows:
   create_infrastructure:
