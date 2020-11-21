@@ -8,10 +8,14 @@ jobs:
       - checkout
       - add ssh keys:
           fingerprint: ["fa:c5:cc:7e:24:a8:cc:94:96:83:79:61:9b:8a:8e:90"]
-      -run:
+      - run:
           name: Install dependencies
           command: |
             apk add --update ansible
+      - run:
+          name: Configure server
+          Command: |
+            ansible-playbook -i inventory.txt main.yml
       # - run:
       #     name: Ensure backend infrastructure exist
       #     command: aws cloudformation create-stack --stack-name "InfastructureCreation" --template-body file://template.yml
