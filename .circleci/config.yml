@@ -26,10 +26,11 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints: ["fa:c5:cc:7e:24:a8:cc:94:96:83:79:61:9b:8a:8e:90"]
+      - run: apk add --update curl
       - run:
           name: Can we contact the website?
           command: |
-            sleep 5
+            sleep 30
             if curl -s --head "ec2-54-149-147-134.us-west-2.compute.amazonaws.com:3000" 
             then 
               echo "It worked!" 
