@@ -15,7 +15,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-            ansible-playbook ANSIBLE_HOST_KEY_CHECKING=False -i inventory.txt main.yml
+            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.txt main.yml
       # - run:
       #     name: Ensure backend infrastructure exist
       #     command: aws cloudformation create-stack --stack-name "InfastructureCreation" --template-body file://template.yml
