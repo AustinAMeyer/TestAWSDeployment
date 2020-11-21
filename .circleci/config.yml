@@ -11,10 +11,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible --allow-untrusted ansible
+            apk add --update ansible
       - run:
           name: Configure server
-          Command: |
+          command: |
             ansible-playbook -i inventory.txt main.yml
       # - run:
       #     name: Ensure backend infrastructure exist
