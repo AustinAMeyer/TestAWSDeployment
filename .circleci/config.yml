@@ -19,6 +19,7 @@ jobs:
       # - run:
       #     name: Ensure backend infrastructure exist
       #     command: aws cloudformation create-stack --stack-name "InfastructureCreation" --template-body file://template.yml
+jobs:
   smoke_test:
     docker:
       - image: "alpine:latest"
