@@ -45,4 +45,4 @@ workflows:
     jobs:
         - configure_infrastructure
         - smoke_test
-          requires: [configure_infrastructure]
+            requires: [configure_infrastructure]
