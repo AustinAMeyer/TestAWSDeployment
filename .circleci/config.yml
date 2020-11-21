@@ -44,5 +44,5 @@ workflows:
   myWorkflow:
     jobs:
         - configure_infrastructure
-        - smoke_test
+        - smoke_test:
             requires: [configure_infrastructure]
