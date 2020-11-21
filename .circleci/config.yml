@@ -31,7 +31,7 @@ jobs:
           name: Can we contact the website?
           command: |
             sleep 30
-            if curl -s --head "ec2-54-149-147-134.us-west-2.compute.amazonaws.com:3000" 
+            if curl -s --head "ec2-54-245-136-255.us-west-2.compute.amazonaws.com:3000" 
             then 
               echo "It worked!" 
               return 0 
