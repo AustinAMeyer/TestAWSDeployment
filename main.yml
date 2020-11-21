@@ -1,6 +1,7 @@
 ---
 - name: Exercise for setting up a web server in an EC2
   hosts: all
+  HOST_KEY_CHECKING: false
   user: ubuntu
   roles:
   - setup
