@@ -28,15 +28,16 @@ jobs:
           fingerprints: ["fa:c5:cc:7e:24:a8:cc:94:96:83:79:61:9b:8a:8e:90"]
       - run:
           name: Check if website is accessable
-          script: |
-            if curl -s --head "ec2-54-202-105-115.us-west-2.compute.amazonaws.com:3000" 
-            then 
-              echo "It worked!" 
-              return 0 
-            else 
-              echo "It failed" 
-              return 1 
-            fi
+          script: 
+            - >
+              if curl -s --head "ec2-54-202-105-115.us-west-2.compute.amazonaws.com:3000" 
+              then 
+                echo "It worked!" 
+                return 0 
+              else 
+                echo "It failed" 
+                return 1 
+              fi
 
       
 
