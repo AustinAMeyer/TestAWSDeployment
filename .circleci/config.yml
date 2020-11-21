@@ -1,7 +1,7 @@
 
 version: 2.1
 jobs:  
-  create_infrastructure:
+  configure_infrastructure:
     docker:
       - image: "python:3.7-alpine3.11"
     steps:
@@ -15,7 +15,7 @@ jobs:
       - run:
           name: Configure server
           Command: |
-            ansible-playbook -i inventory.txt main.yml
+            ansible-playbook -i inventory main.yml
       # - run:
       #     name: Ensure backend infrastructure exist
       #     command: aws cloudformation create-stack --stack-name "InfastructureCreation" --template-body file://template.yml
@@ -23,4 +23,4 @@ jobs:
 workflows:
   myWorkflow:
     jobs:
-        -  create_infrastructure
+        -  configure_infrastructure
