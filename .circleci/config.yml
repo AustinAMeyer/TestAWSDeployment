@@ -1,6 +1,20 @@
 
 version: 2.1
+commands:
+  destroy_enviroment:
+    steps:
+      - run:
+        name: Destroy Enviroment
+        command: |
+          aws cloudformation delete-stack --stack-name "InfastructureCreation"
 jobs:  
+    create_infastructure:
+    docker:
+      - image: "amazon/aws-cli"
+    steps:
+      - run:
+          name: Ensure backend infrastructure exist
+          command: aws cloudformation create-stack --stack-name "InfastructureCreation" --template-body file://template.yml
   configure_infrastructure:
     docker:
       - image: "python:3.7-alpine3.11"
@@ -15,10 +29,8 @@ jobs:
       - run:
           name: Configure server
           command: |
-            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.txt main.yml
-      # - run:
-      #     name: Ensure backend infrastructure exist
-      #     command: aws cloudformation create-stack --stack-name "InfastructureCreation" --template-body file://template.yml
+            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory main.yml
+
   smoke_test:
     docker:
       - image: "alpine:latest"
@@ -39,12 +51,16 @@ jobs:
               echo "It failed" 
               return 1 
             fi
+      - destroy_enviroment
+        when: on_fail
 
       
 
 workflows:
   myWorkflow:
     jobs:
-        - configure_infrastructure
+        - create_infastructure
+        - configure_infrastructure:
+            recuires: [create_infastructure]
         - smoke_test:
             requires: [configure_infrastructure]
