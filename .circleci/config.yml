@@ -52,7 +52,7 @@ jobs:
                 echo "It failed" 
                 return 1 
               fi
-        - destroy_enviroment
+        - destroy_environment
           when: on_fail
 
       
