@@ -8,52 +8,56 @@ commands:
         name: Destroy Enviroment
         command: |
           aws cloudformation delete-stack --stack-name prod-${CIRCLE_WORKFLOW_ID}
-jobs:  
-    create_infastructure:
+jobs:
+  create_infrastructure:
     docker:
-      - image: "amazon/aws-cli"
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
-          name: Ensure backend infrastructure exist
-          command: aws cloudformation create-stack --stack-name prod-${CIRCLE_WORKFLOW_ID} --template-body file://template.yml
+          name: Create Stack
+          command: |
+            aws cloudformation deploy \
+              --template-file template.yml \
+              --stack-name prod-${CIRCLE_WORKFLOW_ID}
+      - run: return 1
       - destroy_environment
         when: on_fail
-    configure_infrastructure:
+  configure_infrastructure:
+  docker:
+    - image: "python:3.7-alpine3.11"
+  steps:
+    - checkout
+    - add_ssh_keys:
+        fingerprints: ["fa:c5:cc:7e:24:a8:cc:94:96:83:79:61:9b:8a:8e:90"]
+    - run:
+        name: Install dependencies
+        command: |
+          apk add --update ansible
+    - run:
+        name: Configure server
+        command: |
+          ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory main.yml
+
+  smoke_test:
     docker:
-      - image: "python:3.7-alpine3.11"
+      - image: "alpine:latest"
     steps:
       - checkout
       - add_ssh_keys:
           fingerprints: ["fa:c5:cc:7e:24:a8:cc:94:96:83:79:61:9b:8a:8e:90"]
+      - run: apk add --update curl
       - run:
-          name: Install dependencies
+          name: Can we contact the website?
           command: |
-            apk add --update ansible
-      - run:
-          name: Configure server
-          command: |
-            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory main.yml
-
-    smoke_test:
-      docker:
-        - image: "alpine:latest"
-      steps:
-        - checkout
-        - add_ssh_keys:
-            fingerprints: ["fa:c5:cc:7e:24:a8:cc:94:96:83:79:61:9b:8a:8e:90"]
-        - run: apk add --update curl
-        - run:
-            name: Can we contact the website?
-            command: |
-              if curl -s --head "ec2-54-245-136-255.us-west-2.compute.amazonaws.com:3000" 
-              then 
-                echo "It worked!" 
-                return 0 
-              else 
-                echo "It failed" 
-                return 1 
-              fi
+            if curl -s --head "ec2-54-245-136-255.us-west-2.compute.amazonaws.com:3000" 
+            then 
+              echo "It worked!" 
+              return 0 
+            else 
+              echo "It failed" 
+              return 1 
+            fi
         
 
       
