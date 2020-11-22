@@ -31,28 +31,28 @@ jobs:
           command: |
             ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory main.yml
 
-  smoke_test:
-    docker:
-      - image: "alpine:latest"
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints: ["fa:c5:cc:7e:24:a8:cc:94:96:83:79:61:9b:8a:8e:90"]
-      - run: apk add --update curl
-      - run:
-          name: Can we contact the website?
-          command: |
-            sleep 30
-            if curl -s --head "ec2-54-245-136-255.us-west-2.compute.amazonaws.com:3000" 
-            then 
-              echo "It worked!" 
-              return 0 
-            else 
-              echo "It failed" 
-              return 1 
-            fi
-      - destroy_enviroment
-        when: on_fail
+    smoke_test:
+      docker:
+        - image: "alpine:latest"
+      steps:
+        - checkout
+        - add_ssh_keys:
+            fingerprints: ["fa:c5:cc:7e:24:a8:cc:94:96:83:79:61:9b:8a:8e:90"]
+        - run: apk add --update curl
+        - run:
+            name: Can we contact the website?
+            command: |
+              sleep 30
+              if curl -s --head "ec2-54-245-136-255.us-west-2.compute.amazonaws.com:3000" 
+              then 
+                echo "It worked!" 
+                return 0 
+              else 
+                echo "It failed" 
+                return 1 
+              fi
+        - destroy_enviroment
+          when: on_fail
 
       
 
