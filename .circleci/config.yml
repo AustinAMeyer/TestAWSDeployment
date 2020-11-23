@@ -25,12 +25,12 @@ jobs:
       - run:
           name: "Get the IP Address of the Backend EC2 instance and create inventory"
           command: |
-            echo -e "[web]\n" > ./.circleci/ansible/inventory
+            echo -e "[web]\n" > ./inventory
             aws ec2 describe-instances \
             --filters "Name=tag:AWSHighlyAvailableWebApp,Values=prod-${CIRCLE_WORKFLOW_ID}" \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --output text >> ./.circleci/ansible/inventory
-            cat ./.circleci/ansible/inventory
+            --output text >> ./inventory
+            cat ./inventory
 
   configure_infrastructure:
     docker:
