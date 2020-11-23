@@ -28,7 +28,7 @@ jobs:
             sleep 60
             echo -e "[web]\n" > ./inventory
             aws ec2 describe-instances \
-            --filters "Name=tag:AWSHighlyAvailableWebApp,Values=prod-${CIRCLE_WORKFLOW_ID}" \
+            --filters "Name=tag:AWSHighlyAvailableWebApp,Values=i-${CIRCLE_WORKFLOW_ID}" \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --output text >> ./inventory
             cat ./inventory
