@@ -31,10 +31,10 @@ jobs:
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --output text >> ./.circleci/ansible/inventory.txt
             cat ./.circleci/ansible/inventory.txt
-      - persist_to_workspace:
-        root: .circleci/ansible/        
-        paths:
-          - inventory.txt
+          - persist_to_workspace:
+            root: .circleci/ansible/        
+            paths:
+              - inventory.txt
 
   configure_infrastructure:
     docker:
@@ -47,12 +47,13 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
-      - attach_workspace:
-        at: .circleci/ansible/
+      
       - run:
           name: Configure server
           command: |
             ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ./.circleci/ansible/inventory.txt main.yml
+          - attach_workspace:
+            at: .circleci/ansible/
 
   smoke_test:
     docker:
