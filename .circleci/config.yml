@@ -21,16 +21,16 @@ jobs:
             aws cloudformation deploy \
               --template-file template.yml \
               --stack-name prod-${CIRCLE_WORKFLOW_ID} \
-              --tags Name=prod-${CIRCLE_WORKFLOW_ID}
+              --tags Name=udacity
       - run:
           name: "Get the IP Address of the Backend EC2 instance and create inventory"
           command: |
-            echo -e "[web]\n" > ./.circleci/ansible/inventory
+            echo -e "[web]\n" > ./.circleci/ansible/inventory.txt
             aws ec2 describe-instances \
-            --filters "Name=tag:Name,Values=prod-${CIRCLE_WORKFLOW_ID}" \
+            --filters "Name=tag:Name,Values=udacity" \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --output text >> ./.circleci/ansible/inventory
-            cat ./.circleci/ansible/inventory
+            --output text >> ./.circleci/ansible/inventory.txt
+            cat ./.circleci/ansible/inventory.txt
 
   configure_infrastructure:
     docker:
@@ -46,7 +46,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ./.circleci/ansible/inventory main.yml
+            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ./.circleci/ansible/inventory.txt main.yml
 
   smoke_test:
     docker:
