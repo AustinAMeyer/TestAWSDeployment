@@ -19,6 +19,7 @@ jobs:
           name: Install dependencies
           command: |
             yum -y install tar
+            yum -y install gzip
       - run:
           name: Create Stack
           command: |
