@@ -72,12 +72,10 @@ jobs:
           fingerprints: ["fa:c5:cc:7e:24:a8:cc:94:96:83:79:61:9b:8a:8e:90"]
       - run: apk add --update curl
       - run:
-          name: Install Python/pip
+          name: Install Python/pip and awscli
           command: | 
-            ENV PYTHONUNBUFFERED=1
-            RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
-            RUN python3 -m ensurepip
-            RUN pip3 install --no-cache --upgrade pip setuptools
+            apk add python3
+            pip3 install awscli
       - run:
           name: Can we contact the website?
           command: |
