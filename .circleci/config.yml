@@ -40,8 +40,6 @@ jobs:
           root: .circleci/ansible/        
           paths:
             - inventory.txt
-      - destroy_environment
-        when: on_fail
 
   configure_infrastructure:
     docker:
@@ -87,8 +85,6 @@ jobs:
               echo "It failed" 
               return 1 
             fi   
-      - destroy_environment
-        when: on_fail
 
 workflows:
   myWorkflow:
