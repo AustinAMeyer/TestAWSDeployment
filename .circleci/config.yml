@@ -71,13 +71,13 @@ jobs:
       - run:
           name: Can we contact the website?
           command: |
-            IPAddress = ""
-             aws ec2 describe-instances \
+            IPAddress = \
+            aws ec2 describe-instances \
             --filters "Name=tag:Name,Values=udacity" \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --output text >> $IPAddress
-            $IPAddress = echo $IPAddress | tr "." -
-            if curl -s --head "ec2-54-245-136-255.us-west-2.compute.amazonaws.com:3000" 
+            --output text
+            $IPAddress = ${IPAddress//./-}
+            if curl -s --head "ec2-${IPAddress}compute.amazonaws.com:3000" 
             then 
               echo "It worked!" 
               return 0 
