@@ -82,7 +82,7 @@ jobs:
               echo "It failed" 
               exit 1 
             fi   
-      - destroy_enviroment
+      - destroy_environment
 
 workflows:
   myWorkflow:
