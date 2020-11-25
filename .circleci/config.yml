@@ -74,8 +74,7 @@ jobs:
             sleep 60
             IPAddress=`aws ec2 describe-instances --filters "Name=tag:Name,Values=udacity" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text`
             URLAddress=${IPAddress//[.]/-}
-            URL="ec2-${URLAddress}.us-west-2.compute.amazonaws.com:3000"
-            if curl -s --head $URL
+            if curl -s --head "ec2-${URLAddress}.us-west-2.compute.amazonaws.com:3000"
             then 
               echo "It worked!" 
               return 0 
