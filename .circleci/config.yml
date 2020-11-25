@@ -60,6 +60,7 @@ jobs:
           command: |
             sleep 20
             ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ./.circleci/ansible/inventory.txt main.yml
+      - run: return 1
       - destroy_environment
       
 
