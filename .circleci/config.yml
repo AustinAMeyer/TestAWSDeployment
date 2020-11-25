@@ -75,6 +75,7 @@ jobs:
           name: Install Python/pip and awscli
           command: | 
             apk add python3
+            apk add py3-setuptools
             pip3 install awscli
       - run:
           name: Can we contact the website?
