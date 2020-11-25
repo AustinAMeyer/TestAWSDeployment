@@ -72,15 +72,15 @@ jobs:
           name: Can we contact the website?
           command: |
             sleep 60
-            IPAddress=`aws ec2 describe-instances --filters "Name=tag:Name,Values=udacity" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text`
+            IPAddress=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=udacity" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
             URLAddress=${IPAddress//[.]/-}
             if curl -s --head "ec2-${URLAddress}.us-west-2.compute.amazonaws.com:3000"
             then 
               echo "It worked!" 
-              return 0 
+              exit 0 
             else 
               echo "It failed" 
-              return 1 
+              exit 1 
             fi   
 
 workflows:
