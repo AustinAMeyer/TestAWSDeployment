@@ -40,6 +40,7 @@ jobs:
           root: .circleci/ansible/        
           paths:
             - inventory.txt
+      - destroy_environment
 
   configure_infrastructure:
     docker:
@@ -57,7 +58,9 @@ jobs:
       - run:
           name: Configure server
           command: |
+            sleep 20
             ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ./.circleci/ansible/inventory.txt main.yml
+      - destroy_environment
       
 
   smoke_test:
