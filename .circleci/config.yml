@@ -40,7 +40,7 @@ jobs:
           root: .circleci/ansible/        
           paths:
             - inventory.txt
-       - run: return 1
+      - run: return 1
       - destroy_environment
 
   configure_infrastructure:
